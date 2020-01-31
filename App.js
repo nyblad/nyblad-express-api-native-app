@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import { StatusBar } from 'react-native';
 
 // STYLED COMP
@@ -89,6 +89,12 @@ const App = () => {
   //Loading state to show loading mean while API is fetched
   const [loading, setLoading] = useState(true)
 
+  // Just started on in
+  const handleSearch = () => {
+    setSearchInput(searchInput)
+    console.log('search for:', searchInput)
+    setSearchInput('')
+  }
 
   // Not working now - do a new fetch?
   const handleTypeMovie = () => {
