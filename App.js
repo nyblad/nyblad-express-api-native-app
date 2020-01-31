@@ -115,7 +115,7 @@ const App = () => {
   // FETCH ALL NETFLIXDATA
   useEffect(() => {
     setLoading(true)
-    fetch(`https://nyblad-express-api.herokuapp.com/shows?limit=20${filterShows}`)
+    fetch(`https://nyblad-express-api.herokuapp.com/shows?limit=30${filterShows}`)
       .then(res => res.json())
       .then(json => setShows(json))
     setLoading(false)
@@ -163,7 +163,7 @@ const App = () => {
             {shows.map(item => (
               <StyledView key={item.show_id}>
                 <TextBig>{item.title}</TextBig>
-                <Text>{item.type} released {item.release_year}</Text>
+                <Text>{item.type} released {item.release_year} ({item.duration})</Text>
               </StyledView>
             ))}
           </>
