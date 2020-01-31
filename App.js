@@ -78,23 +78,25 @@ const App = () => {
   // State for shows
   const [shows, setShows] = useState([])
   // State for filtering shows on type
-  const [filterMovieShows, setFilterMovieShows] = useState('')
+  const [filterShows, setFilterShows] = useState('')
   // State for search
   const [searchInput, setSearchInput] = useState("");
   //Loading state to show loading mean while API is fetched
   const [loading, setLoading] = useState(true)
 
-  // Just started on in
+  // Just started on it
   const handleSearch = () => {
     setSearchInput(searchInput)
     console.log('search for:', searchInput)
     setSearchInput('')
   }
 
-  // Not working now - do a new fetch?
+  // Handle filter shows
   const handleTypeMovie = () => {
-    setFilterMovieShows('&&type=movie')
-    console.log(filterMovieShows)
+    setFilterShows('&&type=movie')
+  }
+  const handleTypeTvShow = () => {
+    setFilterShows('&&type=tv-show')
   }
 
   //SCROLL
@@ -103,11 +105,11 @@ const App = () => {
   // FETCH ALL NETFLIXDATA
   useEffect(() => {
     setLoading(true)
-    fetch(`https://nyblad-express-api.herokuapp.com/shows?limit=10${filterMovieShows}`)
+    fetch(`https://nyblad-express-api.herokuapp.com/shows?limit=10${filterShows}`)
       .then(res => res.json())
       .then(json => setShows(json))
     setLoading(false)
-  }, [])
+  }, [filterShows])
 
   return (
     <Container ref={scroll}>
@@ -130,7 +132,7 @@ const App = () => {
       </StyledView>
 
       <StyledRowView>
-        <StyledButton onPress={handleTypeMovie}>
+        <StyledButton onPress={handleTypeTvShow}>
           <ButtonText>TV-Shows</ButtonText>
         </StyledButton>
 
