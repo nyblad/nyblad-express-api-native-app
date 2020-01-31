@@ -12,9 +12,13 @@ const StyledView = styled.View`
   margin: 5px 0;
   padding: 0 10px;
 `;
+const StyledCenterView = styled.View`
+  margin: 0 auto;
+  padding: 10px 10px;
+`;
 const StyledRowView = styled.View`
   margin: 10px 0;
-  padding: 0 20px;
+  padding: 0 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -24,13 +28,19 @@ const TextHeading = styled.Text`
   font-weight: bold;
   color: #1E1E1E;
   margin: 20px;  
-  padding: 30px 0 20px 0;
+  padding: 25px 0 20px 0;
   text-align: center;
   background: transparent;
   border: 7px solid #1E1E1E;
 `;
 const Text = styled.Text`
   font-size: 16px;
+  color: #1E1E1E;
+  margin: 0 0 5px 0;
+  text-align: left;
+`;
+const TextSmall = styled.Text`
+  font-size: 12px;
   color: #1E1E1E;
   margin: 0 0 5px 0;
   text-align: left;
@@ -85,17 +95,22 @@ const ButtonText = styled.Text`
 const App = () => {
   // State for shows
   const [shows, setShows] = useState([])
+  // States for pagination
+  const [page, setPage] = useState(0)
+  const [totalPages, setTotalPages] = useState()
   // State for filtering shows on type
   const [filterShows, setFilterShows] = useState('')
   // State for search
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState('');
   //Loading state to show loading mean while API is fetched
   const [loading, setLoading] = useState(true)
 
-  // Just started on it
+  // Not working
   const handleSearch = () => {
-    setSearchInput(searchInput)
-    console.log('search for:', searchInput)
+    // setFilterShows('&&title=${searchInput}')
+    setSearchInput('')
+    console.log('searchInput:', searchInput)
+    console.log('filter:', filterShows)
   }
 
   // Handle filter shows
@@ -115,29 +130,32 @@ const App = () => {
   // FETCH ALL NETFLIXDATA
   useEffect(() => {
     setLoading(true)
-    fetch(`https://nyblad-express-api.herokuapp.com/shows?limit=30${filterShows}`)
+    fetch(`https://nyblad-express-api.herokuapp.com/shows?page=${page}${filterShows}`)
       .then(res => res.json())
-      .then(json => setShows(json))
-    setLoading(false)
-  }, [filterShows])
+      .then(json => {
+        setShows(json.filteredShows)
+        setTotalPages(json.totalPages)
+        setLoading(false)
+      })
+  }, [page, filterShows]) //Putting second argument to fetch new list on changes
 
   return (
     <Container ref={scroll}>
       <StatusBar hidden />
-      <TextHeading>RECENT ADDED SHOWS ON NETFLIX</TextHeading>
+      <TextHeading>SHOWS ON NETFLIX</TextHeading>
 
       <StyledRowView>
         <SearchBar
           onChangeText={(text) => setSearchInput(text)}
           value={searchInput}
           // onClearText={handleSearch}
-          onFocus={e => setSearchInput('')}
+          onFocus={() => setSearchInput('')}
           clearTextOnFocus
           placeholder='Type Here...'
         />
 
         <StyledSearchButton onPress={handleSearch}>
-          <ButtonText>?</ButtonText>
+          <ButtonText>Q</ButtonText>
         </StyledSearchButton>
       </StyledRowView>
 
@@ -163,11 +181,32 @@ const App = () => {
             {shows.map(item => (
               <StyledView key={item.show_id}>
                 <TextBig>{item.title}</TextBig>
-                <Text>{item.type} released {item.release_year} ({item.duration})</Text>
+                <Text>{item.type} released {item.release_year} ({item.duration})  </Text>
               </StyledView>
             ))}
           </>
         }
+
+        {!loading &&
+          <StyledCenterView>
+            <TextSmall>Showing page {page + 1} of {totalPages + 1}</TextSmall>
+          </StyledCenterView>
+        }
+
+        <StyledRowView>
+          {page > 0 &&
+            <StyledButton onPresson={() => setPage(page - 1)}>
+              <ButtonText>Prev</ButtonText>
+            </StyledButton>
+          }
+
+          {page < totalPages &&
+            <StyledButton onPress={() => setPage(page + 1)}>
+              <ButtonText>Next</ButtonText>
+            </StyledButton>
+          }
+        </StyledRowView>
+
       </StyledView>
 
     </Container>

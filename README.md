@@ -1,20 +1,18 @@
-# Project 13 - Build a React Native App 📱
+# Project 17 - Build a frontend to my Express API
 
-Project week 13 @ Technigo Bootcamp we we're supposed to build our first mobile application with React Native! I went for a silly budget app to get familiar with React Native and also could practise more on how to work with useState and adding user inputs to arrays.
+Project week 17 @ Technigo Bootcamp 2020 was to build an API using Express (https://nyblad-express-api.herokuapp.com/).
 
-You can try out my app here (Chrome is recommended for sneakpeak in web, scan QR Code to open in iOS/Android device): <br>
-https://snack.expo.io/@nyblad/budget-app
+This is the frontend to show some examples using the API.
 
-## Learning objectives
-* How to use React Native to create a mobile app
-* Practice using Styled Components
-* More practice in useState and form inputs
+You can try it out here (Chrome is recommended for sneakpeak in web, scan QR Code to open in Android device): <br>
+https://snack.expo.io/@nyblad/nyblad-express-api
 
 ## Technologies used
 JavaScript ES6 <br>
 React Native<br>
-Styled Components
+Styled Components<br>
+API
 
 <br>
-Sofie Nyblad 2019
+Sofie Nyblad 2020
 
