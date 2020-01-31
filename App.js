@@ -27,8 +27,8 @@ const TextHeading = styled.Text`
   font-size: 18px;
   font-weight: bold;
   color: #1E1E1E;
-  margin: 20px;  
-  padding: 25px 0 20px 0;
+  margin: 20px 10px;  
+  padding: 30px 0 20px 0;
   text-align: center;
   background: transparent;
   border: 7px solid #1E1E1E;
@@ -107,7 +107,9 @@ const App = () => {
 
   // Not working
   const handleSearch = () => {
-    // setFilterShows('&&title=${searchInput}')
+    setFilterShows('')
+    setPage(0)
+    setFilterShows('&&title=${searchInput}')
     setSearchInput('')
     console.log('searchInput:', searchInput)
     console.log('filter:', filterShows)
@@ -195,7 +197,7 @@ const App = () => {
 
         <StyledRowView>
           {page > 0 &&
-            <StyledButton onPresson={() => setPage(page - 1)}>
+            <StyledButton onPress={() => setPage(page - 1)}>
               <ButtonText>Prev</ButtonText>
             </StyledButton>
           }
