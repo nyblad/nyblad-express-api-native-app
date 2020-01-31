@@ -36,6 +36,29 @@ const Text = styled.Text`
   margin: 0 0 0.5rem 0;
   text-align: left;
 `;
+const SearchBar = styled.TextInput`
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  color: #1E1E1E;
+  width: 100%;
+  cursor: auto;
+  padding: 2rem;
+  height: 2rem;
+`;
+const StyledSearchButton = styled.TouchableOpacity`
+  height: 2rem;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  justify-content: center;
+  font-weight: bold;
+  background: #25897D;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+`;
 const StyledButton = styled.TouchableOpacity`
   height: 2rem;
   width: 45%;
@@ -56,27 +79,21 @@ const ButtonText = styled.Text`
   text-align: left;
 `;
 
-// APP
 const App = () => {
-  // url to api
-  let url = ''
   // State for shows
   const [shows, setShows] = useState([])
   // State for filtering shows on type
   const [filterMovieShows, setFilterMovieShows] = useState('')
   // State for search
-  // const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   //Loading state to show loading mean while API is fetched
   const [loading, setLoading] = useState(true)
 
+
+  // Not working now - do a new fetch?
   const handleTypeMovie = () => {
-    useEffect(() => {
-      setLoading(true)
-      fetch(`https://nyblad-express-api.herokuapp.com/shows?limit=10&&?type=movie`)
-        .then(res => res.json())
-        .then(json => setShows(json))
-      setLoading(false)
-    })
+    setFilterMovieShows('&&type=movie')
+    console.log(filterMovieShows)
   }
 
   //SCROLL
@@ -85,7 +102,7 @@ const App = () => {
   // FETCH ALL NETFLIXDATA
   useEffect(() => {
     setLoading(true)
-    fetch(`https://nyblad-express-api.herokuapp.com/shows?limit=10`)
+    fetch(`https://nyblad-express-api.herokuapp.com/shows?limit=10${filterMovieShows}`)
       .then(res => res.json())
       .then(json => setShows(json))
     setLoading(false)
@@ -95,9 +112,20 @@ const App = () => {
     <Container ref={scroll}>
       <StatusBar hidden />
       <TextHeading>MY NETFLIX API</TextHeading>
-
       <StyledView>
-        <Text>Filter shows on type:</Text>
+
+        <SearchBar
+          onChangeText={(text) => setSearchInput(text)}
+          value={searchInput}
+          // onClearText={handleSearch}
+          onFocus={e => setSearchInput('')}
+          clearTextOnFocus
+          placeholder='Type Here...'
+        />
+
+        <StyledSearchButton onPress={handleSearch}>
+          <ButtonText>Search</ButtonText>
+        </StyledSearchButton>
       </StyledView>
 
       <StyledRowView>
