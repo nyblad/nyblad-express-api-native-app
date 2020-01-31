@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import { StatusBar } from 'react-native';
 
 // STYLED COMP
@@ -10,46 +10,43 @@ const Container = styled.ScrollView`
 `;
 const StyledView = styled.View`
   margin: 0;
-  padding: 1rem;
+  padding: 0 20px;
 `;
 const StyledRowView = styled.View`
   margin: 0;
-  padding: 1rem;
+  padding: 0 20px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 `;
 const TextHeading = styled.Text`
-  font-size: 1.5rem;
+  font-size: 20px;
   font-weight: bold;
   color: #1E1E1E;
-  margin: 2rem 1.5rem 1.5rem 1.5rem;  
-  padding: 1.5rem 1rem;
+  margin: 20px;  
+  padding: 30px 0;
   text-align: center;
   background: transparent;
   border: 7px solid #1E1E1E;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 const Text = styled.Text`
-  font-size: 1.2rem;
+  font-size: 16px;
   color: #1E1E1E;
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 5px 0;
   text-align: left;
 `;
 const SearchBar = styled.TextInput`
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   background-color: #fff;
   color: #1E1E1E;
   width: 100%;
-  cursor: auto;
-  padding: 2rem;
-  height: 2rem;
+  padding: 10px;
+  height: 45px;
 `;
 const StyledSearchButton = styled.TouchableOpacity`
-  height: 2rem;
-  padding: 1.5rem;
-  margin: 1rem 0;
-  font-size: 1.5rem;
+  height: 40px;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,12 +54,11 @@ const StyledSearchButton = styled.TouchableOpacity`
   justify-content: center;
   font-weight: bold;
   background: #25897D;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 const StyledButton = styled.TouchableOpacity`
-  height: 2rem;
+  height: 40px;
   width: 45%;
-  padding: 1.5rem;
+  padding: 10px;
   margin: 0;
   display: flex;
   justify-content: center;
@@ -70,10 +66,9 @@ const StyledButton = styled.TouchableOpacity`
   text-transform: uppercase;
   justify-content: center;
   background: #25897D;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 `;
 const ButtonText = styled.Text`
-  font-size: 0.8rem;
+  font-size: 14px;
   font-weight: bold;
   color: #fff;
   text-align: left;
@@ -148,7 +143,7 @@ const App = () => {
         {loading && <Text>Loading shows...</Text>}
 
         {!loading &&
-          <StyledView>
+          <>
             <Text>Shows:</Text>
             {shows.map(item => (
               <StyledView key={item.show_id}>
@@ -156,7 +151,7 @@ const App = () => {
                 <Text>Type: {item.type}</Text>
               </StyledView>
             ))}
-          </StyledView>
+          </>
         }
       </StyledView>
 
