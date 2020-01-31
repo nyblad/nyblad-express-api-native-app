@@ -20,11 +20,11 @@ const StyledRowView = styled.View`
   justify-content: space-between;
 `;
 const TextHeading = styled.Text`
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   color: #1E1E1E;
   margin: 20px;  
-  padding: 30px 0;
+  padding: 30px 0 20px 0;
   text-align: center;
   background: transparent;
   border: 7px solid #1E1E1E;
@@ -96,7 +96,6 @@ const App = () => {
   const handleSearch = () => {
     setSearchInput(searchInput)
     console.log('search for:', searchInput)
-    setSearchInput('')
   }
 
   // Handle filter shows
@@ -125,7 +124,7 @@ const App = () => {
   return (
     <Container ref={scroll}>
       <StatusBar hidden />
-      <TextHeading>MY NETFLIX API</TextHeading>
+      <TextHeading>RECENT ADDED SHOWS ON NETFLIX</TextHeading>
 
       <StyledRowView>
         <SearchBar
