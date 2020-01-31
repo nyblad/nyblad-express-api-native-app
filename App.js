@@ -9,11 +9,11 @@ const Container = styled.ScrollView`
   margin: 0;
 `;
 const StyledView = styled.View`
-  margin: 0;
-  padding: 0 20px;
+  margin: 5px 0;
+  padding: 0 10px;
 `;
 const StyledRowView = styled.View`
-  margin: 0;
+  margin: 10px 0;
   padding: 0 20px;
   display: flex;
   flex-direction: row;
@@ -35,17 +35,25 @@ const Text = styled.Text`
   margin: 0 0 5px 0;
   text-align: left;
 `;
+const TextBig = styled.Text`
+  font-size: 16px;
+  font-weight: bold;
+  color: #1E1E1E;
+  margin: 0 0 5px 0;
+  text-align: left;
+`;
 const SearchBar = styled.TextInput`
   background-color: #fff;
   color: #1E1E1E;
-  width: 100%;
+  width: 80%;
   padding: 10px;
   height: 45px;
 `;
 const StyledSearchButton = styled.TouchableOpacity`
-  height: 40px;
+  height: 45px;
+  width: 20%;
   padding: 10px;
-  margin: 10px 0;
+  margin: 0;
   font-size: 16px;
   display: flex;
   justify-content: center;
@@ -57,7 +65,7 @@ const StyledSearchButton = styled.TouchableOpacity`
 `;
 const StyledButton = styled.TouchableOpacity`
   height: 40px;
-  width: 45%;
+  width: 30%;
   padding: 10px;
   margin: 0;
   display: flex;
@@ -98,6 +106,9 @@ const App = () => {
   const handleTypeTvShow = () => {
     setFilterShows('&&type=tv-show')
   }
+  const handleAll = () => {
+    setFilterShows('')
+  }
 
   //SCROLL
   const scroll = React.createRef();
@@ -105,7 +116,7 @@ const App = () => {
   // FETCH ALL NETFLIXDATA
   useEffect(() => {
     setLoading(true)
-    fetch(`https://nyblad-express-api.herokuapp.com/shows?limit=10${filterShows}`)
+    fetch(`https://nyblad-express-api.herokuapp.com/shows?limit=20${filterShows}`)
       .then(res => res.json())
       .then(json => setShows(json))
     setLoading(false)
@@ -115,8 +126,8 @@ const App = () => {
     <Container ref={scroll}>
       <StatusBar hidden />
       <TextHeading>MY NETFLIX API</TextHeading>
-      <StyledView>
 
+      <StyledRowView>
         <SearchBar
           onChangeText={(text) => setSearchInput(text)}
           value={searchInput}
@@ -127,17 +138,21 @@ const App = () => {
         />
 
         <StyledSearchButton onPress={handleSearch}>
-          <ButtonText>Search</ButtonText>
+          <ButtonText>?</ButtonText>
         </StyledSearchButton>
-      </StyledView>
+      </StyledRowView>
 
       <StyledRowView>
         <StyledButton onPress={handleTypeTvShow}>
-          <ButtonText>TV-Shows</ButtonText>
+          <ButtonText>TV</ButtonText>
         </StyledButton>
 
         <StyledButton onPress={handleTypeMovie}>
-          <ButtonText>Movies</ButtonText>
+          <ButtonText>Movie</ButtonText>
+        </StyledButton>
+
+        <StyledButton onPress={handleAll}>
+          <ButtonText>All</ButtonText>
         </StyledButton>
       </StyledRowView>
 
@@ -146,11 +161,10 @@ const App = () => {
 
         {!loading &&
           <>
-            <Text>Shows:</Text>
             {shows.map(item => (
               <StyledView key={item.show_id}>
-                <Text>Title: {item.title}</Text>
-                <Text>Type: {item.type}</Text>
+                <TextBig>{item.title}</TextBig>
+                <Text>{item.type} released {item.release_year}</Text>
               </StyledView>
             ))}
           </>
