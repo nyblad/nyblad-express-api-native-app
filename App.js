@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components/native';
+import styled from 'styled-components';
 import { StatusBar } from 'react-native';
 
 // STYLED COMP
@@ -112,7 +112,7 @@ const App = () => {
       .then(res => res.json())
       .then(json => setShows(json))
     setLoading(false)
-  })
+  }, [])
 
   return (
     <Container ref={scroll}>
