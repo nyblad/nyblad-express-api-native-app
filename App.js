@@ -99,7 +99,7 @@ const App = () => {
   const [page, setPage] = useState(0)
   const [totalPages, setTotalPages] = useState()
   // State for filtering shows on type
-  const [filterShows, setFilterShows] = useState('')
+  const [filterShows, setFilterShows] = useState('?')
   // State for search
   const [searchInput, setSearchInput] = useState('');
   //Loading state to show loading mean while API is fetched
@@ -107,23 +107,24 @@ const App = () => {
 
   // Not working
   const handleSearch = () => {
-    setFilterShows('')
     setPage(0)
-    setFilterShows('&&title=${searchInput}')
-    setSearchInput('')
+    setFilterShows('?title=${searchInput}&&')
     console.log('searchInput:', searchInput)
-    console.log('filter:', filterShows)
+    console.log('filterShows:', filterShows)
   }
 
   // Handle filter shows
   const handleTypeMovie = () => {
-    setFilterShows('&&type=movie')
+    setPage(0)
+    setFilterShows('/types/movie?')
   }
   const handleTypeTvShow = () => {
-    setFilterShows('&&type=tv-show')
+    setPage(0)
+    setFilterShows('/types/tv-show?')
   }
   const handleAll = () => {
-    setFilterShows('')
+    setPage(0)
+    setFilterShows('?')
   }
 
   //SCROLL
@@ -132,10 +133,10 @@ const App = () => {
   // FETCH ALL NETFLIXDATA
   useEffect(() => {
     setLoading(true)
-    fetch(`https://nyblad-express-api.herokuapp.com/shows?page=${page}${filterShows}`)
+    fetch(`https://nyblad-express-api.herokuapp.com/shows${filterShows}page=${page}`)
       .then(res => res.json())
       .then(json => {
-        setShows(json.filteredShows)
+        setShows(json.showData)
         setTotalPages(json.totalPages)
         setLoading(false)
       })
@@ -150,10 +151,9 @@ const App = () => {
         <SearchBar
           onChangeText={(text) => setSearchInput(text)}
           value={searchInput}
-          // onClearText={handleSearch}
           onFocus={() => setSearchInput('')}
           clearTextOnFocus
-          placeholder='Type Here...'
+          placeholder='Search for a title..'
         />
 
         <StyledSearchButton onPress={handleSearch}>
@@ -176,14 +176,19 @@ const App = () => {
       </StyledRowView>
 
       <StyledView>
-        {loading && <Text>Loading shows...</Text>}
+        {loading &&
+          <StyledCenterView>
+            <Text>Loading shows...</Text>
+          </StyledCenterView>
+        }
 
         {!loading &&
           <>
             {shows.map(item => (
               <StyledView key={item.show_id}>
                 <TextBig>{item.title}</TextBig>
-                <Text>{item.type} released {item.release_year} ({item.duration})  </Text>
+                <Text>
+                  {item.type} released {item.release_year} ({item.duration})                      </Text>
               </StyledView>
             ))}
           </>
@@ -191,7 +196,7 @@ const App = () => {
 
         {!loading &&
           <StyledCenterView>
-            <TextSmall>Showing page {page + 1} of {totalPages + 1}</TextSmall>
+            <TextSmall>Showing page {page + 1}</TextSmall>
           </StyledCenterView>
         }
 
