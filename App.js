@@ -108,7 +108,7 @@ const App = () => {
   // Not working
   const handleSearch = () => {
     setPage(0)
-    setFilterShows('?title=${searchInput}&&')
+    setFilterShows(`?title=${searchInput}&&`)
     console.log('searchInput:', searchInput)
     console.log('filterShows:', filterShows)
   }
@@ -116,11 +116,11 @@ const App = () => {
   // Handle filter shows
   const handleTypeMovie = () => {
     setPage(0)
-    setFilterShows('/types/movie?')
+    setFilterShows('/movies?')
   }
   const handleTypeTvShow = () => {
     setPage(0)
-    setFilterShows('/types/tv-show?')
+    setFilterShows('/tv-shows?')
   }
   const handleAll = () => {
     setPage(0)
@@ -136,8 +136,8 @@ const App = () => {
     fetch(`https://nyblad-express-api.herokuapp.com/shows${filterShows}page=${page}`)
       .then(res => res.json())
       .then(json => {
-        setShows(json.showData)
-        setTotalPages(json.totalPages)
+        setShows(json.filteredShows)
+        setTotalPages(json.filteredPages)
         setLoading(false)
       })
   }, [page, filterShows]) //Putting second argument to fetch new list on changes
@@ -196,7 +196,7 @@ const App = () => {
 
         {!loading &&
           <StyledCenterView>
-            <TextSmall>Showing page {page + 1}</TextSmall>
+            <TextSmall>Showing page {page + 1} of {totalPages + 1}</TextSmall>
           </StyledCenterView>
         }
 
