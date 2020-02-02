@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
-import { StatusBar } from 'react-native';
+import { StatusBar, Vibration } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather'
 
 // STYLED COMP
 const Container = styled.ScrollView`
   flex-grow: 1;
-  background: #f1f1f1;
+  background: #0C0C0C;
   margin: 0;
 `;
 const StyledView = styled.View`
@@ -24,31 +25,29 @@ const StyledRowView = styled.View`
   justify-content: space-between;
 `;
 const TextHeading = styled.Text`
-  font-size: 18px;
+  font-size: 22px;
   font-weight: bold;
-  color: #1E1E1E;
+  color: #f1f1f1;
   margin: 20px 10px;  
-  padding: 30px 0 20px 0;
+  padding: 20px 0;
   text-align: center;
-  background: transparent;
-  border: 7px solid #1E1E1E;
 `;
 const Text = styled.Text`
   font-size: 16px;
-  color: #1E1E1E;
+  color: #f1f1f1;
   margin: 0 0 5px 0;
   text-align: left;
 `;
 const TextSmall = styled.Text`
   font-size: 12px;
-  color: #1E1E1E;
+  color: #f1f1f1;
   margin: 0 0 5px 0;
   text-align: left;
 `;
 const TextBig = styled.Text`
   font-size: 16px;
   font-weight: bold;
-  color: #1E1E1E;
+  color: #f1f1f1;
   margin: 0 0 5px 0;
   text-align: left;
 `;
@@ -64,14 +63,11 @@ const StyledSearchButton = styled.TouchableOpacity`
   width: 20%;
   padding: 10px;
   margin: 0;
-  font-size: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-transform: uppercase;
   justify-content: center;
-  font-weight: bold;
-  background: #25897D;
+  background: #D8863E;
 `;
 const StyledButton = styled.TouchableOpacity`
   height: 40px;
@@ -83,7 +79,7 @@ const StyledButton = styled.TouchableOpacity`
   align-items: center;
   text-transform: uppercase;
   justify-content: center;
-  background: #25897D;
+  background: #6B0000;
 `;
 const ButtonText = styled.Text`
   font-size: 14px;
@@ -105,15 +101,20 @@ const App = () => {
   //Loading state to show loading mean while API is fetched
   const [loading, setLoading] = useState(true)
 
-  // Not working
+  // Scroll
+  const scroll = React.createRef();
+
+  // Vibe
+  const vibeDuration = 200;
+
+  // Handle search
   const handleSearch = () => {
     setPage(0)
     setFilterShows(`?title=${searchInput}&&`)
-    console.log('searchInput:', searchInput)
-    console.log('filterShows:', filterShows)
+    Vibration.vibrate(vibeDuration)
   }
 
-  // Handle filter shows
+  // Handle filters
   const handleTypeMovie = () => {
     setPage(0)
     setFilterShows('/movies?')
@@ -127,10 +128,7 @@ const App = () => {
     setFilterShows('?')
   }
 
-  //SCROLL
-  const scroll = React.createRef();
-
-  // FETCH ALL NETFLIXDATA
+  // Fetch all data
   useEffect(() => {
     setLoading(true)
     fetch(`https://nyblad-express-api.herokuapp.com/shows${filterShows}page=${page}`)
@@ -157,7 +155,7 @@ const App = () => {
         />
 
         <StyledSearchButton onPress={handleSearch}>
-          <ButtonText>Q</ButtonText>
+          <Icon name="search" size={20} color="white" />
         </StyledSearchButton>
       </StyledRowView>
 
