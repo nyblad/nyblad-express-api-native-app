@@ -110,7 +110,7 @@ const App = () => {
   // Handle search
   const handleSearch = () => {
     setPage(0)
-    setFilterShows(`?title=${searchInput}&&`)
+    setFilterShows(`?title=${searchInput}&`)
     Vibration.vibrate(vibeDuration)
   }
 
@@ -186,7 +186,7 @@ const App = () => {
               <StyledView key={item.show_id}>
                 <TextBig>{item.title}</TextBig>
                 <Text>
-                  {item.type} released {item.release_year} ({item.duration})                      </Text>
+                  {item.type} released {item.release_year} ({item.duration})</Text>
               </StyledView>
             ))}
           </>
